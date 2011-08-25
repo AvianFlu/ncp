@@ -5,11 +5,15 @@
 
 var ncp = require('../lib/ncp');
 
-
+if (!process.argv[2] || !process.argv[3]) {
+  console.error('Usage: ncp [source] [destination]');
+  process.exit(1);
+}
 
 ncp.ncp(process.argv[2], process.argv[3], function (err) {
   if (err) {
-    return console.error('There was an error:');
+    console.error('There was an error:');
+    console.error(err.message);
+    process.exit(1);
   }
-  console.log('ncp done.');
 });
