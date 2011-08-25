@@ -1,0 +1,22 @@
+{
+    "name" : "ncp",
+    "preferGlobal": "true",
+    "version" : "0.0.0",
+    "author": "AvianFlu <charlie@charlieistheman.com>",
+    "description" : "Asynchronous recursive file copy utility.",
+    "bin": {
+      "ncp": "./bin/ncp"
+    },
+    "repository" : {
+        "type" : "git",
+        "url" : "https://github.com/AvianFlu/ncp.git"
+    },
+    "keywords" : [
+        "cli",
+        "copy"
+    ],
+    "license" : "MIT",
+    "engine" : {
+        "node" : ">=0.4"
+    }
+}

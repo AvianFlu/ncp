@@ -1,0 +1,15 @@
+#!/usr/local/bin/node
+
+
+
+
+var ncp = require('../lib/ncp');
+
+
+
+ncp.ncp(process.argv[2], process.argv[3], function (err) {
+  if (err) {
+    return console.error('There was an error:');
+  }
+  console.log('ncp done.');
+});
