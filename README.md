@@ -6,7 +6,7 @@ Think `cp -r`, but pure node, and asynchronous.  `ncp` can be used both as a CLI
 
 Usage is simple: `ncp [source] [dest]`
 
-If there are no errors, there will be no output.  Note that `ncp` will fail if its destination path exists.
+If there are no errors, there will be no output.
 
 ## Programmatic usage
 
