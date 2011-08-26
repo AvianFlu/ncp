@@ -3,17 +3,26 @@
 
 
 
-var ncp = require('../lib/ncp');
+var ncp = require('../lib/ncp'),
+    args = process.argv.slice(2),
+    source, dest;
 
-if (!process.argv[2] || !process.argv[3]) {
-  console.error('Usage: ncp [source] [destination]');
+if (args.length < 2) {
+  console.error('Usage: ncp [source] [destination] [concurrency limit]');
   process.exit(1);
 }
 
-ncp.ncp(process.argv[2], process.argv[3], function (err) {
+if (args[2]) {
+  ncp.limit = Number(args[2]);
+}
+
+ncp.ncp(args[0], args[1], function (err) {
   if (err) {
     console.error('There was an error:');
     console.error(err.message);
     process.exit(1);
   }
+  console.log('done.')
 });
+
+
