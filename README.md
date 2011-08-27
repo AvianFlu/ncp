@@ -12,7 +12,7 @@ If there are no errors, `ncp` will output `done.` when complete.
 
 ## Programmatic usage
 
-Programmatic usage of `ncp` is just as simple.  
+Programmatic usage of `ncp` is just as simple.  The only argument to the completion callback is a possible error.  
 
 ```javascript
 var ncp = require('ncp').ncp;
