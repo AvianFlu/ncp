@@ -8,7 +8,7 @@ Usage is simple: `ncp [source] [dest] [--limit=concurrency limit] [--filter=filt
 
 The 'concurrency limit' is an integer that represents how many pending file system requests `ncp` has at a time.
 
-`filter` is a regex agains which each copied file's name is tested to
+'filter' is a regex agains which each copied file's name is tested to
 determine whether should it be copied or not.
 
 If there are no errors, `ncp` will output `done.` when complete.
