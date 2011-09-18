@@ -4,11 +4,13 @@ Think `cp -r`, but pure node, and asynchronous.  `ncp` can be used both as a CLI
 
 ## Command Line usage
 
-Usage is simple: `ncp [source] [dest] [concurrency limit]`
+Usage is simple: `ncp [source] [dest] [filter] [concurrency limit]`
+
+The 'filter' is a Regular Expression - matched files will be copied.
 
 The 'concurrency limit' is an integer that represents how many pending file system requests `ncp` has at a time.
 
-If there are no errors, `ncp` will output `done.` when complete.
+If there are no errors, `ncp` will output `done.` when complete.  If there are errors, the error messages will be logged to `stdout` and to `./ncp-debug.log`, and the copy operation will attempt to continue.
 
 ## Programmatic usage
 
@@ -19,7 +21,7 @@ var ncp = require('ncp').ncp;
 
 ncp.limit = 16;
 
-ncp(source, destination, function (err) {
+ncp.ncp(source, destination, /*regex or function to filter,*/function (err) {
  if (err) {
    return console.error(err);
  }
