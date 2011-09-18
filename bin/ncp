@@ -8,15 +8,26 @@ var ncp = require('../lib/ncp'),
     source, dest;
 
 if (args.length < 2) {
-  console.error('Usage: ncp [source] [destination] [concurrency limit]');
+  console.error('Usage: ncp [source] [destination] [--filter=filter] [--limit=concurrency limit]');
   process.exit(1);
 }
 
-if (args[2]) {
-  ncp.limit = Number(args[2]);
+// parse arguments the hard way
+function startsWith(str, prefix) {
+  return str.substr(0, prefix.length) == prefix;
 }
 
-ncp.ncp(args[0], args[1], function (err) {
+var options = {};
+args.forEach(function (arg) {
+  if (startsWith(arg, "--limit=")) {
+    ncp.limit = Number(arg.split('=', 2)[1]);
+  }
+  if (startsWith(arg, "--filter=")) {
+    options.filter = new RegExp(arg.split('=', 2)[1]);
+  }
+});
+
+ncp.ncp(args[0], args[1], options, function (err) {
   if (err) {
     console.error('There was an error:');
     console.error(err.message);
