@@ -4,9 +4,12 @@ Think `cp -r`, but pure node, and asynchronous.  `ncp` can be used both as a CLI
 
 ## Command Line usage
 
-Usage is simple: `ncp [source] [dest] [concurrency limit]`
+Usage is simple: `ncp [source] [dest] [--limit=concurrency limit] [--filter=filter]`
 
 The 'concurrency limit' is an integer that represents how many pending file system requests `ncp` has at a time.
+
+`filter` is a regex agains which each copied file's name is tested to
+determine whether should it be copied or not.
 
 If there are no errors, `ncp` will output `done.` when complete.
 
