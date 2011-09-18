@@ -1,6 +1,6 @@
 {
     "name" : "ncp",
-    "version" : "0.1.2",
+    "version" : "0.2.0",
     "author": "AvianFlu <charlie@charlieistheman.com>",
     "description" : "Asynchronous recursive file copy utility.",
     "bin": {
