@@ -26,14 +26,20 @@ args.forEach(function (arg) {
     options.filter = new RegExp(arg.split('=', 2)[1]);
   }
 });
-
+options.stopOnError = true;
 ncp.ncp(args[0], args[1], options, function (err) {
-  if (err) {
-    console.error('There was an error:');
-    console.error(err.message);
+  if (Array.isArray(err)) {
+    console.error('There were errors during the copy.');
+    err.forEach(function (err) {
+      console.error(err.stack || err.message);
+    });
     process.exit(1);
   }
-  console.log('done.');
+  else if (err) {
+    console.error('An error has occurred.');
+    console.error(err.stack || err.message);
+    process.exit(1);
+  }
 });
 
 
