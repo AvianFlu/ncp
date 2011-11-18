@@ -20,13 +20,16 @@ function startsWith(str, prefix) {
 var options = {};
 args.forEach(function (arg) {
   if (startsWith(arg, "--limit=")) {
-    ncp.limit = Number(arg.split('=', 2)[1]);
+    options.limit = parseInt(arg.split('=', 2)[1], 10);
   }
   if (startsWith(arg, "--filter=")) {
     options.filter = new RegExp(arg.split('=', 2)[1]);
   }
+  if (startsWith(arg, "--stoponerr")) {
+    options.stopOnErr = true;
+  }
 });
-options.stopOnError = true;
+
 ncp.ncp(args[0], args[1], options, function (err) {
   if (Array.isArray(err)) {
     console.error('There were errors during the copy.');
