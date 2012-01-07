@@ -1,5 +1,7 @@
 # ncp - Asynchronous recursive file & directory copying
 
+[![Build Status](https://secure.travis-ci.org/AvianFlu/ncp.png)](http://travis-ci.org/AvianFlu/ncp)
+
 Think `cp -r`, but pure node, and asynchronous.  `ncp` can be used both as a CLI tool and programmatically.
 
 ## Command Line usage
