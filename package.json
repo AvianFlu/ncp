@@ -6,6 +6,11 @@
     "bin": {
       "ncp": "./bin/ncp"
     },
+    "devDependencies" : {
+        "vows" : "0.6.x",
+        "rimraf" : "1.0.x",
+        "read-dir-files" : "0.0.x"
+    },
     "main": "./lib/ncp.js",
     "repository" : {
         "type" : "git",
@@ -18,5 +23,8 @@
     "license" : "MIT",
     "engine" : {
         "node" : ">=0.4"
+    },
+    "scripts" : {
+      "test": "vows --isolate --spec"
     }
 }

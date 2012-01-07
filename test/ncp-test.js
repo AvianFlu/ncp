@@ -1,0 +1,39 @@
+var assert = require('assert'),
+    path = require('path'),
+    rimraf = require('rimraf'),
+    vows = require('vows'),
+    readDirFiles = require('read-dir-files'),
+    ncp = require('../').ncp;
+
+var fixtures = path.join(__dirname, 'fixtures'),
+    src = path.join(fixtures, 'src'),
+    out = path.join(fixtures, 'out');
+
+vows.describe('ncp').addBatch({
+  'When using `ncp`': {
+    'and copying files from one directory to another': {
+      topic: function () {
+        var cb = this.callback;
+        rimraf(out, function () {
+          ncp(src, out, cb);
+        });
+      },
+      'it should copy files': {
+        topic: function () {
+          var cb = this.callback;
+
+          readDirFiles(src, 'utf8', function (srcErr, srcFiles) {
+            readDirFiles(out, 'utf8', function (outErr, outFiles) {
+              cb(outErr, srcFiles, outFiles);
+            });
+          });
+        },
+        'and destination files should match source files': function (err, srcFiles, outFiles) {
+          assert.isNull(err);
+          assert.deepEqual(srcFiles, outFiles);
+        }
+      }
+    }
+  }
+}).export(module);
+
