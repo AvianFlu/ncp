@@ -6,6 +6,9 @@
     "bin": {
       "ncp": "./bin/ncp"
     },
+    "dependencies": {
+        "graceful-fs": "~1.1.10"
+    },
     "devDependencies" : {
         "vows" : "0.6.x",
         "rimraf" : "1.0.x",
