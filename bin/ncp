@@ -30,7 +30,7 @@ args.forEach(function (arg) {
   }
 });
 
-ncp.ncp(args[0], args[1], options, function (err) {
+ncp(args[0], args[1], options, function (err) {
   if (Array.isArray(err)) {
     console.error('There were errors during the copy.');
     err.forEach(function (err) {
