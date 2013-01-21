@@ -3,7 +3,7 @@ var assert = require('assert'),
     rimraf = require('rimraf'),
     vows = require('vows'),
     readDirFiles = require('read-dir-files'),
-    ncp = require('../').ncp;
+    ncp = require('../');
 
 var fixtures = path.join(__dirname, 'fixtures'),
     src = path.join(fixtures, 'src'),
