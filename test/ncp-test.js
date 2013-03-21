@@ -71,6 +71,22 @@ vows.describe('ncp').addBatch({
     }
   }
 }).addBatch({
+  'When copying files using clobber=false': {
+    topic: function(){
+      var cb = this.callback;
+
+      ncp(src, out, function(){
+        ncp(src, out, {clobber: false}, function(err){
+          cb(err);
+        })
+      })
+    },
+    'it should not hang up' : function(err) {
+      assert.isUndefined(err);
+    }
+  }
+})
+.addBatch({
    'When copying files using transform': {
       'it should pass file descriptors along to transform functions': function() {
          ncp(src, out, {
