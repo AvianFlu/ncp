@@ -25,6 +25,6 @@
         "node" : ">=0.4"
     },
     "scripts" : {
-      "test": "vows --isolate --spec"
+      "test": "mocha -R spec"
     }
 }
