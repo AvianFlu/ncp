@@ -1,6 +1,7 @@
 
 
 var assert = require('assert'),
+    fs = require('fs'),
     path = require('path'),
     rimraf = require('rimraf'),
     readDirFiles = require('read-dir-files'),
@@ -103,6 +104,65 @@ describe('ncp', function () {
             });
           });
         });
+      });
+    });
+  });
+
+  describe('symlink handling', function () {
+    var fixtures = path.join(__dirname, 'symlink-fixtures'),
+        src = path.join(fixtures, 'src'),
+        out = path.join(fixtures, 'out');
+
+    beforeEach(function (cb) {
+      rimraf(out, cb);
+    });
+
+    it('copies symlinks by default', function (cb) {
+      ncp(src, out, function (err) {
+        if (err) return cb(err);
+        assert.equal(fs.readlinkSync(path.join(out, 'file-symlink')), 'foo');
+        assert.equal(fs.readlinkSync(path.join(out, 'dir-symlink')), 'dir');
+        cb();
+      })
+    });
+
+    it('copies file contents when dereference=true', function (cb) {
+      ncp(src, out, { dereference: true }, function (err) {
+        var fileSymlinkPath = path.join(out, 'file-symlink');
+        assert.ok(fs.lstatSync(fileSymlinkPath).isFile());
+        assert.equal(fs.readFileSync(fileSymlinkPath), 'foo contents');
+
+        var dirSymlinkPath = path.join(out, 'dir-symlink');
+        assert.ok(fs.lstatSync(dirSymlinkPath).isDirectory());
+        assert.deepEqual(fs.readdirSync(dirSymlinkPath), ['bar']);
+
+        cb();
+      });
+    });
+  });
+
+  describe('broken symlink handling', function () {
+    var fixtures = path.join(__dirname, 'broken-symlink-fixtures'),
+        src = path.join(fixtures, 'src'),
+        out = path.join(fixtures, 'out');
+
+    beforeEach(function (cb) {
+      rimraf(out, cb);
+    });
+
+    it('copies broken symlinks by default', function (cb) {
+      ncp(src, out, function (err) {
+        if (err) return cb(err);
+        assert.equal(fs.readlinkSync(path.join(out, 'broken-symlink')), 'does-not-exist');
+        cb();
+      })
+    });
+
+    it('returns an error when dereference=true', function (cb) {
+      ncp(src, out, {dereference: true}, function (err) {
+        assert.equal(err.length, 1);
+        assert.equal(err[0].code, 'ENOENT');
+        cb();
       });
     });
   });
