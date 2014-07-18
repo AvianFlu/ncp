@@ -5,7 +5,9 @@ var assert = require('assert'),
     path = require('path'),
     rimraf = require('rimraf'),
     readDirFiles = require('read-dir-files'),
+    util = require('util'),
     ncp = require('../').ncp;
+
 
 
 describe('ncp', function () {
@@ -165,5 +167,31 @@ describe('ncp', function () {
         cb();
       });
     });
+  });
+
+  describe('modified files copies', function () {
+      var fixtures = path.join(__dirname, 'modified-files'),
+          src = path.join(fixtures, 'src'),
+          out = path.join(fixtures, 'out');
+
+      it('if file not exists copy file to target', function(cb) {
+          rimraf(out, function() {
+              ncp(src, out, {modified: true, clobber: false}, function (err) {
+                  assert.equal(fs.existsSync(out), true);
+                  cb();
+              });
+          });
+      });
+
+      it('change source file mtime and copy', function(cb) {
+          fs.utimesSync(src+"/a", new Date().getTime()/1000, new Date('2015-01-01 00:00:00').getTime()/1000);
+          ncp(src, out, {modified: true, clobber: false}, function (err) {
+              fs.stat(out+"/a", function(err, stats) {
+                  assert.equal(stats.mtime.getTime(), new Date('2015-01-01 00:00:00').getTime());
+                  cb();
+              });
+          });
+      });
+
   });
 });
