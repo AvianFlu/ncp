@@ -166,4 +166,25 @@ describe('ncp', function () {
       });
     });
   });
+
+
+  describe('sub directory handling', function () {
+    var fixtures = path.join(__dirname, 'sub-directory-fixtures'),
+        src = path.join(fixtures, 'src'),
+        out = path.join(fixtures, 'src/out');
+
+    beforeEach(function (cb) {
+      rimraf(out, function(){
+        fs.mkdir(out,cb);
+      });
+    });
+
+    it('returns an error when user copy the parent to itself', function (cb) {
+      ncp(src, out, function (err) {
+        assert.equal(err.code, 'ESELF');
+        cb();
+      })
+    });
+
+  });
 });
