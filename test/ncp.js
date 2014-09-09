@@ -170,28 +170,47 @@ describe('ncp', function () {
   });
 
   describe('modified files copies', function () {
-      var fixtures = path.join(__dirname, 'modified-files'),
-          src = path.join(fixtures, 'src'),
-          out = path.join(fixtures, 'out');
+    var fixtures = path.join(__dirname, 'modified-files'),
+        src = path.join(fixtures, 'src'),
+        out = path.join(fixtures, 'out');
 
-      it('if file not exists copy file to target', function(cb) {
-          rimraf(out, function() {
-              ncp(src, out, {modified: true, clobber: false}, function (err) {
-                  assert.equal(fs.existsSync(out), true);
-                  cb();
-              });
-          });
+    it('if file not exists copy file to target', function(cb) {
+      rimraf(out, function() {
+        ncp(src, out, {modified: true, clobber: false}, function (err) {
+          assert.equal(fs.existsSync(out), true);
+          cb();
+        });
       });
+    });
 
-      it('change source file mtime and copy', function(cb) {
-          fs.utimesSync(src+"/a", new Date().getTime()/1000, new Date('2015-01-01 00:00:00').getTime()/1000);
-          ncp(src, out, {modified: true, clobber: false}, function (err) {
-              fs.stat(out+"/a", function(err, stats) {
-                  assert.equal(stats.mtime.getTime(), new Date('2015-01-01 00:00:00').getTime());
-                  cb();
-              });
-          });
+    it('change source file mtime and copy', function(cb) {
+      fs.utimesSync(src+"/a", new Date().getTime()/1000, new Date('2015-01-01 00:00:00').getTime()/1000);
+      ncp(src, out, {modified: true, clobber: false}, function (err) {
+        fs.stat(out+"/a", function(err, stats) {
+          assert.equal(stats.mtime.getTime(), new Date('2015-01-01 00:00:00').getTime());
+          cb();
+        });
       });
+    });
+  });
+
+  describe('sub directory handling', function () {
+    var fixtures = path.join(__dirname, 'sub-directory-fixtures'),
+        src = path.join(fixtures, 'src'),
+        out = path.join(fixtures, 'src/out');
+
+    beforeEach(function (cb) {
+      rimraf(out, function(){
+        fs.mkdir(out,cb);
+      });
+    });
+
+    it('returns an error when user copy the parent to itself', function (cb) {
+      ncp(src, out, function (err) {
+        assert.equal(err.code, 'ESELF');
+        cb();
+      })
+    });
 
   });
 });
