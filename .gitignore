@@ -2,3 +2,5 @@ node_modules
 .*.sw[op]
 .DS_Store
 test/*fixtures/out
+test/*fixtures/*_out
+test/sub-directory-fixtures/src-symlink
