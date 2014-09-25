@@ -211,9 +211,9 @@ describe('ncp', function () {
         rimraf(src_out, function(e) {
           fs.mkdirSync(src_out);
           rimraf(double_src_before_out, function() {
-            mkdirp(double_src_before_out);
+            mkdirp.sync(double_src_before_out);
             rimraf(double_src_middle_out, function() {
-              mkdirp(double_src_middle_out);
+              mkdirp.sync(double_src_middle_out);
               if (fs.existsSync(src_symlink)) {
                 fs.unlink(src_symlink, cb);
               } else {
