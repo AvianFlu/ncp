@@ -6,6 +6,7 @@ var assert = require('assert'),
     rimraf = require('rimraf'),
     readDirFiles = require('read-dir-files'),
     util = require('util'),
+    mkdirp = require('mkdirp'),
     ncp = require('../').ncp;
 
 
@@ -194,23 +195,100 @@ describe('ncp', function () {
     });
   });
 
-  describe('sub directory handling', function () {
+  describe('sub directory handling', function() {
     var fixtures = path.join(__dirname, 'sub-directory-fixtures'),
         src = path.join(fixtures, 'src'),
-        out = path.join(fixtures, 'src/out');
+        out = path.join(fixtures, 'src/out'),
+        src_out = path.join(fixtures, 'src_out'),
+        src_symlink = path.join(fixtures, 'src-symlink'),
+        src_a = path.join(fixtures, 'src/a'),
+        double_src_before_out = path.join(src, src + '_out'),
+        double_src_middle_out = path.join(src+ '_out', src );
 
-    beforeEach(function (cb) {
-      rimraf(out, function(){
-        fs.mkdir(out,cb);
+    before(function(cb) {
+      rimraf(out, function() {
+        fs.mkdirSync(out);
+        rimraf(src_out, function(e) {
+          fs.mkdirSync(src_out);
+          rimraf(double_src_before_out, function() {
+            mkdirp(double_src_before_out);
+            rimraf(double_src_middle_out, function() {
+              mkdirp(double_src_middle_out);
+              if (fs.existsSync(src_symlink)) {
+                fs.unlink(src_symlink, cb);
+              } else {
+                cb();
+              }
+            });
+          });
+        });
       });
     });
 
-    it('returns an error when user copy the parent to itself', function (cb) {
-      ncp(src, out, function (err) {
+    it('returns an error when user copies the parent to itself', function(cb) {
+      ncp(src, out, function(err) {
         assert.equal(err.code, 'ESELF');
         cb();
+      });
+    });
+
+    it('copies `src`  to `src` itself', function(cb) {
+      ncp(src, src, function(err) {
+        assert.equal(err.code, 'ESELF');
+        cb();
+      });
+    });
+
+    it('copies `src` to `src/out` and directory `src/out`  doesn\'t exists ', function(cb) {
+      rimraf(out, function() {
+        ncp(src, out, function(err) {
+          assert.equal(err.code, 'ESELF');
+          cb();
+        });
       })
     });
 
+    it('copies `src` to `src_out` ', function(cb) {
+      ncp(src, src_out, function(err) {
+        assert.ok(!err);
+        cb();
+      });
+    });
+
+
+    it('copies `src` to `src-symlink`', function(cb) {
+      fs.symlinkSync(src, src_symlink);
+      ncp(src, src_symlink, function(err) {
+        assert.equal(err.code, 'ESELF');
+        cb();
+      });
+    });
+
+    it('copies file `src/a`  to file `src/a` ', function(cb) {
+      ncp(src_a, src_a, function(err) {
+        assert.equal(err.code, 'ESELF');
+        cb();
+      });
+    });
+
+    it('copies directory `src` to `src`/`src`_out', function(cb){
+      ncp(src, double_src_before_out, function(err){
+        assert.equal(err.code, 'ESELF');
+        cb();
+      });
+    });
+
+    it('copies directory `src` to `src`_out/`src`', function(cb){
+      ncp(src, double_src_middle_out, function(err){
+        assert.ok(!err);
+        cb();
+      });
+    });
+    // it('copies directory `src/out` to  file `src/a`  ', function(cb) {
+    //   ncp(src_out, src_a, function(err) {
+    //     assert.ok(!err);
+    //     cb();
+    //   });
+    // });
   });
 });
