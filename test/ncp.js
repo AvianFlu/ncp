@@ -194,4 +194,26 @@ describe('ncp', function () {
       });
 
   });
+
+  describe('copies into folder missing parent', function() {
+      var fixtures = path.join(__dirname, 'regular-fixtures'),
+          src = path.join(fixtures, 'src'),
+          out = path.join(fixtures, 'dne/dne');
+          outParent = path.join(fixtures, 'dne');
+
+      before(function (cb) {
+        rimraf(outParent, function() {
+          ncp(src, out, cb);
+        });
+      });
+      it('files are copied correctly', function (cb) {
+        readDirFiles(src, 'utf8', function (srcErr, srcFiles) {
+          readDirFiles(out, 'utf8', function (outErr, outFiles) {
+            assert.ifError(srcErr);
+            assert.deepEqual(srcFiles, outFiles);
+            cb();
+          });
+        });
+      });
+  });
 });

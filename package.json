@@ -7,6 +7,7 @@
       "ncp": "./bin/ncp"
     },
     "devDependencies" : {
+        "mkdirp": "0.5.x",
         "mocha": "1.15.x",
         "rimraf" : "1.0.x",
         "read-dir-files" : "0.0.x"
