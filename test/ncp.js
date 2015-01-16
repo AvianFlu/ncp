@@ -110,6 +110,30 @@ describe('ncp', function () {
     });
   });
 
+  describe('callbacks sanity checks', function() {
+      "use strict";
+      describe('regular files and directories', function () {
+          var fixtures = path.join(__dirname, 'regular-fixtures'),
+              src = path.join(fixtures, 'src'),
+              out = path.join(fixtures, 'out');
+
+          before(function (cb) {
+              rimraf(out, function () {
+                  ncp(src, out, cb);
+              });
+          });
+
+          describe('when overwriting files', function () {
+              it('should call the callback only once', function (cb) {
+                  ncp(path.join(src,"c"), path.join(out, "c"), {}, function (err) {
+                      cb(err);
+                  });
+              });
+          });
+
+      });
+  });
+
   describe('symlink handling', function () {
     var fixtures = path.join(__dirname, 'symlink-fixtures'),
         src = path.join(fixtures, 'src'),
