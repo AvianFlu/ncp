@@ -6,6 +6,9 @@
     "bin": {
       "ncp": "./bin/ncp"
     },
+    "dependencies": {
+        "semver": "4.2.0"
+    },
     "devDependencies" : {
         "mocha": "1.15.x",
         "rimraf" : "1.0.x",
