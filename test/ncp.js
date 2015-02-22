@@ -184,10 +184,10 @@ describe('ncp', function () {
       });
 
       it('change source file mtime and copy', function(cb) {
-          fs.utimesSync(src+"/a", new Date().getTime()/1000, new Date('2015-01-01 00:00:00').getTime()/1000);
+          fs.utimesSync(src+"/a", new Date().getTime()/1000, new Date('2099-01-01 00:00:00').getTime()/1000);
           ncp(src, out, {modified: true, clobber: false}, function (err) {
               fs.stat(out+"/a", function(err, stats) {
-                  assert.equal(stats.mtime.getTime(), new Date('2015-01-01 00:00:00').getTime());
+                  assert.equal(stats.mtime.getTime(), new Date('2099-01-01 00:00:00').getTime());
                   cb();
               });
           });
