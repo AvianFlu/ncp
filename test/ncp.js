@@ -194,4 +194,27 @@ describe('ncp', function () {
       });
 
   });
+
+    describe('copies with custom fs', function() {
+        var fixtures = path.join(__dirname, 'modified-files'),
+            src = path.join(fixtures, 'src'),
+            out = path.join(fixtures, 'out');
+
+        it ('with custom fs provided', function(cb) {
+            rimraf(out, function() {
+                ncp(src, out, {fs: fs}, function (err) {
+                    assert.equal(fs.existsSync(out), true);
+                    cb(err);
+                });
+            });
+        });
+        it ('without custom fs provided', function(cb) {
+            rimraf(out, function() {
+                ncp(src, out, {fs: undefined}, function (err) {
+                    assert.equal(fs.existsSync(out), true);
+                    cb(err);
+                });
+            });
+        });
+    });
 });

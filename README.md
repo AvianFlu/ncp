@@ -60,4 +60,17 @@ You can also call ncp like `ncp(source, destination, options, callback)`.
 
   * `options.errs` - stream. If `options.stopOnErr` is `false`, a stream can be provided, and errors will be written to this stream.
 
+  * `options.fs` - [Node.JS File System](http://nodejs.org/api/fs.html) compliant implementation. If provided, this will be used instead of `fs`.
+  The custom implementation must have the following methods implemented:
+    * [`fs.stat(path, callback)`](http://nodejs.org/api/fs.html#fs_fs_stat_path_callback)
+    * [`fs.lstat(path, callback)`](http://nodejs.org/api/fs.html#fs_fs_lstat_path_callback)
+    * [`fs.createReadStream(path[, options])`](http://nodejs.org/api/fs.html#fs_fs_createreadstream_path_options)
+    * [`fs.createWriteStream(path[, options])`](http://nodejs.org/api/fs.html#fs_fs_createwritestream_path_options)
+    * [`fs.utimesSync(path, atime, mtime)`](http://nodejs.org/api/fs.html#fs_fs_utimessync_path_atime_mtime)
+    * [`fs.unlink(path, callback)`](http://nodejs.org/api/fs.html#fs_fs_unlink_path_callback)
+    * [`fs.mkdir(path[, mode], callback)`](http://nodejs.org/api/fs.html#fs_fs_mkdir_path_mode_callback)
+    * [`fs.readdir(path, callback)`](http://nodejs.org/api/fs.html#fs_fs_readdir_path_callback)
+    * [`fs.readlink(path, callback)`](http://nodejs.org/api/fs.html#fs_fs_readlink_path_callback)
+    * [`fs.symlink(srcpath, dstpath[, type], callback)`](http://nodejs.org/api/fs.html#fs_fs_symlink_srcpath_dstpath_type_callback)
+
 Please open an issue if any bugs arise.  As always, I accept (working) pull requests, and refunds are available at `/dev/null`.
