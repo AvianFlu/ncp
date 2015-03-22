@@ -18,6 +18,28 @@ errors arise, rather than attempting to continue while logging errors. The defau
 
 If there are no errors, `ncp` will output `done.` when complete.  If there are errors, the error messages will be logged to `stdout` and to `./ncp-debug.log`, and the copy operation will attempt to continue.
 
+## Small example
+Given the following directory structure
+```
+./folder1/.
+./folder1/..
+./folder1/readme.txt
+```
+run
+```
+ncp folder1 folder2
+```
+To get the resulting structure
+```
+./folder1/.
+./folder1/..
+./folder1/readme.txt
+./folder2/.
+./folder2/..
+./folder2/readme.txt
+```
+Since the bash cp -r differs in behavior when the copying into an existing directory , it is worth noting that ncp _does not_ copy the source directory into the destination directory, and instead copies the contents as is likely desired.
+
 ## Programmatic usage
 
 Programmatic usage of `ncp` is just as simple.  The only argument to the completion callback is a possible error.  
