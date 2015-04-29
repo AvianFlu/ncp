@@ -43,6 +43,9 @@ You can also call ncp like `ncp(source, destination, options, callback)`.
   parameter: copied file name, returning `true` or `false`, determining
   whether to copy file or not.
 
+  * `options.rename` - a function: `function (destPath) { return destPath }`
+  used to rename the destination file name
+
   * `options.transform` - a function: `function (read, write) { read.pipe(write) }`
   used to apply streaming transforms while copying.
 
