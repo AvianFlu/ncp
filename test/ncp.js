@@ -111,12 +111,18 @@ describe('ncp', function () {
       it('output directories are correctly redirected', function(cb) {
         ncp(src, out, {
           rename: function(target) {
-            if(path.basename(target) == 'sub') return path.resolve(path.dirname(target), 'renamed');
-            if(path.basename(path.dirname(target)) == 'sub') return path.resolve(path.dirname(path.dirname(target)), path.join('renamed', path.basename(target)));
+            if (path.basename(target) == 'sub') {
+              return path.resolve(path.dirname(target), 'renamed');
+            }
+            if (path.basename(path.dirname(target)) == 'sub') {
+              return path.resolve(path.dirname(path.dirname(target)), path.join('renamed', path.basename(target)));
+            }
             return target;
           }
         }, function(err) {
-          if(err) return cb(err);
+          if (err) {
+            return cb(err);
+          }
 
           readDirFiles(src, 'utf8', function (srcErr, srcFiles) {
             readDirFiles(out, 'utf8', function (outErr, outFiles) {
