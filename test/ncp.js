@@ -65,6 +65,26 @@ describe('ncp', function () {
       });
     });
 
+    describe('when using clobber=true', function () {
+      before(function () {
+        this.originalCreateReadStream = fs.createReadStream;
+      });
+
+      after(function () {
+        fs.createReadStream = this.originalCreateReadStream;
+      });
+
+      it('the copy is complete after callback', function (cb) {
+        ncp(src, out, {clobber: true}, function(err) {
+          fs.createReadStream = function() {
+            cb(new Error('createReadStream after callback'));
+          };
+          assert.ifError(err);
+          process.nextTick(cb);
+        });
+      });
+    });
+
     describe('when using clobber=false', function () {
       it('the copy is completed successfully', function (cb) {
         ncp(src, out, function() {
