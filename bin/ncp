@@ -8,7 +8,7 @@ var ncp = require('../lib/ncp'),
     source, dest;
 
 if (args.length < 2) {
-  console.error('Usage: ncp [source] [destination] [--filter=filter] [--limit=concurrency limit]');
+  console.error('Usage: ncp [source] [destination] [--filter=filter] [--limit=concurrency limit] [--no-clobber]');
   process.exit(1);
 }
 
@@ -27,6 +27,9 @@ args.forEach(function (arg) {
   }
   if (startsWith(arg, "--stoponerr")) {
     options.stopOnErr = true;
+  }
+  if (startsWith(arg, "--no-clobber")) {
+    options.clobber = false;  
   }
 });
 
