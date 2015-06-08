@@ -38,9 +38,9 @@ ncp(source, destination, function (err) {
 You can also call ncp like `ncp(source, destination, options, callback)`. 
 `options` should be a dictionary. Currently, such options are available:
 
-  * `options.filter` - a `RegExp` instance, against which each file name is
+  * `options.filter` - a `RegExp` instance, against which each file path is
   tested to determine whether to copy it or not, or a function taking single
-  parameter: copied file name, returning `true` or `false`, determining
+  parameter: copied file path, returning `true` or `false`, determining
   whether to copy file or not.
 
   * `options.transform` - a function: `function (read, write) { read.pipe(write) }`
