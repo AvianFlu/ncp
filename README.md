@@ -60,4 +60,6 @@ You can also call ncp like `ncp(source, destination, options, callback)`.
 
   * `options.errs` - stream. If `options.stopOnErr` is `false`, a stream can be provided, and errors will be written to this stream.
 
+  * `options.warns` - stream of warnings (like a destination file already existing when clobber=false).
+
 Please open an issue if any bugs arise.  As always, I accept (working) pull requests, and refunds are available at `/dev/null`.
