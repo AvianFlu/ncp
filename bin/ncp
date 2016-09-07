@@ -22,6 +22,9 @@ args.forEach(function (arg) {
   if (startsWith(arg, "--limit=")) {
     options.limit = parseInt(arg.split('=', 2)[1], 10);
   }
+   if (startsWith(arg, "--noclobber")) {
+    options.clobber = false;
+  }
   if (startsWith(arg, "--filter=")) {
     options.filter = new RegExp(arg.split('=', 2)[1]);
   }
