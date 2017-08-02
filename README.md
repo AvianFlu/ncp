@@ -7,11 +7,13 @@ Think `cp -r`, but pure node, and asynchronous.  `ncp` can be used both as a CLI
 ## Command Line usage
 
 Usage is simple: `ncp [source] [dest] [--limit=concurrency limit]
-[--filter=filter] --stopOnErr`
+[--filter=filter] [--dereference] --stopOnErr`
 
 The 'filter' is a Regular Expression - matched files will be copied.
 
 The 'concurrency limit' is an integer that represents how many pending file system requests `ncp` has at a time.
+
+'dereference' is a boolean flag that will tell `ncp' to follow symbolic links.
 
 'stoponerr' is a boolean flag that will tell `ncp` to stop immediately if any
 errors arise, rather than attempting to continue while logging errors. The default behavior is to complete as many copies as possible, logging errors along the way.
