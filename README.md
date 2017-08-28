@@ -6,10 +6,16 @@ Think `cp -r`, but pure node, and asynchronous.  `ncp` can be used both as a CLI
 
 ## Command Line usage
 
-Usage is simple: `ncp [source] [dest] [--limit=concurrency limit]
+Usage is simple: `ncp [source] [dest] [--limit=concurrency limit] [--flat]
 [--filter=filter] --stopOnErr`
 
 The 'filter' is a Regular Expression - matched files will be copied.
+
+The 'flat' is a boolean flag that will copy files at flat hierarchy, IE:
+   - [source] = test
+   - [dest]   = testCopy
+   
+   File which is found at "test/testSubdirectory/config.json" will be copied at "testCopy/config.json".
 
 The 'concurrency limit' is an integer that represents how many pending file system requests `ncp` has at a time.
 
