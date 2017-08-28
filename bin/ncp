@@ -23,7 +23,7 @@ args.forEach(function (arg) {
     options.limit = parseInt(arg.split('=', 2)[1], 10);
   }
   if (startsWith(arg, "--filter=")) {
-    options.filter = new RegExp(arg.split('=', 2)[1]);
+    options.filter = new RegExp(arg.split('=', 2)[1].replace(/\"/g,""));
   }
   if (startsWith(arg, "--stoponerr")) {
     options.stopOnErr = true;
