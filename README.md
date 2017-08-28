@@ -9,7 +9,7 @@ Think `cp -r`, but pure node, and asynchronous.  `ncp` can be used both as a CLI
 Usage is simple: `ncp [source] [dest] [--limit=concurrency limit] [--flat]
 [--filter="filter"] --stopOnErr`
 
-The 'filter' is a Regular Expression - matched files will be copied. It should be quoted in double qoutes eg: --filter="\.(html|css)"
+The 'filter' is a Regular Expression - matched files will be copied. It should be quoted in double qoutes eg: `--filter="\.(html|css)"`
 
 The 'flat' is a boolean flag that will copy files at flat hierarchy, IE:
    - [source] = test
