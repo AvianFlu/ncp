@@ -5,7 +5,7 @@ var ncp = require('../lib/ncp'),
     source, dest;
 
 if (args.length < 2) {
-  console.error('Usage: ncp [source] [destination] [--filter=filter] [--limit=concurrency limit] [--flat]');
+  console.error('Usage: ncp [source] [destination] [--filter=filter] [--limit=concurrency limit] [--flat] [--clobber]');
   process.exit(1);
 }
 
@@ -20,7 +20,7 @@ args.forEach(function (arg) {
     options.limit = parseInt(arg.split('=', 2)[1], 10);
   }
   if (startsWith(arg, "--filter=")) {
-	var reg = arg.split('=', 2)[1].replace(/\"/g,"");
+	  var reg = arg.split('=', 2)[1].replace(/\"/g,"");
     options.filter = new RegExp(reg);
   }
   if (startsWith(arg, "--stoponerr")) {
@@ -28,6 +28,30 @@ args.forEach(function (arg) {
   }
   if (startsWith(arg, "--flat")) {
     options.flatCopy = true;
+  }
+  if (startsWith(arg, "--clobber")) {
+    options.clobber = true;
+  }
+  if (startsWith(arg, "--find=")) {
+    var reg = arg.replace("--find=","");
+    options.find = reg;
+  }
+  if (startsWith(arg, "--replace=")) {
+    var reg = arg.replace("--replace=","");
+    options.replace = reg;
+
+    options.transform = function(readStream, writeStream, file) {
+        const fileData = [];
+      
+        readStream.on("data", function (chunk) {
+          fileData.push(chunk);
+        });
+      
+        readStream.on("end", function () {
+          var fileStr = Buffer.concat(fileData).toString().replace(options.find, options.replace);         
+          writeStream.write(fileStr, function() {});
+        });
+    };
   }
 });
 
