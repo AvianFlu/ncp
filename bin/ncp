@@ -1,14 +1,11 @@
 #!/usr/bin/env node
 
-
-
-
 var ncp = require('../lib/ncp'),
     args = process.argv.slice(2),
     source, dest;
 
 if (args.length < 2) {
-  console.error('Usage: ncp [source] [destination] [--filter=filter] [--limit=concurrency limit]');
+  console.error('Usage: ncp [source] [destination] [--filter=filter] [--limit=concurrency limit] [--flat]');
   process.exit(1);
 }
 
@@ -23,10 +20,14 @@ args.forEach(function (arg) {
     options.limit = parseInt(arg.split('=', 2)[1], 10);
   }
   if (startsWith(arg, "--filter=")) {
-    options.filter = new RegExp(arg.split('=', 2)[1].replace(/\"/g,""));
+	var reg = arg.split('=', 2)[1].replace(/\"/g,"");
+    options.filter = new RegExp(reg);
   }
   if (startsWith(arg, "--stoponerr")) {
     options.stopOnErr = true;
+  }
+  if (startsWith(arg, "--flat")) {
+    options.flatCopy = true;
   }
 });
 
@@ -44,5 +45,3 @@ ncp.ncp(args[0], args[1], options, function (err) {
     process.exit(1);
   }
 });
-
-
