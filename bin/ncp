@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 
+
 var ncp = require('../lib/ncp'),
     args = process.argv.slice(2),
+    fs = require('fs'),
     source, dest;
 
 if (args.length < 2) {
@@ -34,22 +36,30 @@ args.forEach(function (arg) {
   }
   if (startsWith(arg, "--find=")) {
     var reg = arg.replace("--find=","");
+    options.find = new RegExp(reg, 'g');
+  }
+  if (startsWith(arg, "--findtext=")) {
+    var reg = arg.replace("--findtext=","");
     options.find = reg;
   }
   if (startsWith(arg, "--replace=")) {
     var reg = arg.replace("--replace=","");
     options.replace = reg;
 
-    options.transform = function(readStream, writeStream, file) {
+    options.transform = function(readStream, file, target) {
         const fileData = [];
-      
+        var readStream = fs.createReadStream(file.name);
+
         readStream.on("data", function (chunk) {
           fileData.push(chunk);
         });
       
-        readStream.on("end", function () {
-          var fileStr = Buffer.concat(fileData).toString().replace(options.find, options.replace);         
-          writeStream.write(fileStr, function() {});
+        readStream.on("end", function () {          
+          var fileStr = Buffer.concat(fileData).toString().replace(options.find, options.replace);
+          writeStream = fs.createWriteStream(target, { mode: file.mode });          
+          writeStream.write(fileStr, function() {
+            fs.utimesSync(target, file.atime, file.mtime);
+          });
         });
     };
   }
