@@ -38,10 +38,11 @@ ncp(source, destination, function (err) {
 You can also call ncp like `ncp(source, destination, options, callback)`. 
 `options` should be a dictionary. Currently, such options are available:
 
-  * `options.filter` - a `RegExp` instance, against which each file name is
+  * `options.filter` - a `RegExp` instance, against which each file name and directory is
   tested to determine whether to copy it or not, or a function taking single
   parameter: copied file name, returning `true` or `false`, determining
   whether to copy file or not.
+  **ATTENTION** - the filter tests directories as well, please see [this issue](https://github.com/AvianFlu/ncp/issues/119)
 
   * `options.transform` - a function: `function (read, write) { read.pipe(write) }`
   used to apply streaming transforms while copying.
