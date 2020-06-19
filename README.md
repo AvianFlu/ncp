@@ -27,11 +27,15 @@ var ncp = require('ncp').ncp;
 
 ncp.limit = 16;
 
-ncp(source, destination, function (err) {
+ncp(source, destination, (err) => {
+ //if the process have errors
  if (err) {
    return console.error(err);
  }
+ //no error | process successfully completed
+ else{
  console.log('done!');
+ }
 });
 ```
 
