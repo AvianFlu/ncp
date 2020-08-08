@@ -7,9 +7,9 @@
     "ncp": "./bin/ncp"
   },
   "devDependencies": {
-    "mocha": "1.15.x",
-    "rimraf": "1.0.x",
-    "read-dir-files": "0.0.x"
+    "mocha": "8.1.x",
+    "rimraf": "3.0.x",
+    "read-dir-files": "0.1.x"
   },
   "main": "./lib/ncp.js",
   "repository": {

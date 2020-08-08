@@ -24,8 +24,8 @@ describe('ncp', function () {
 
     describe('when copying a directory of files', function () {
       it('files are copied correctly', function (cb) {
-        readDirFiles(src, 'utf8', function (srcErr, srcFiles) {
-          readDirFiles(out, 'utf8', function (outErr, outFiles) {
+        readDirFiles.read(src, 'utf8', true, function (srcErr, srcFiles) {
+          readDirFiles.read(out, 'utf8', true, function (outErr, outFiles) {
             assert.ifError(srcErr);
             assert.deepEqual(srcFiles, outFiles);
             cb();
@@ -45,7 +45,7 @@ describe('ncp', function () {
       });
 
       it('files are copied correctly', function (cb) {
-        readDirFiles(src, 'utf8', function (srcErr, srcFiles) {
+        readDirFiles.read(src, 'utf8', true, function (srcErr, srcFiles) {
           function filter(files) {
             for (var fileName in files) {
               var curFile = files[fileName];
@@ -56,7 +56,7 @@ describe('ncp', function () {
             }
           }
           filter(srcFiles);
-          readDirFiles(out, 'utf8', function (outErr, outFiles) {
+          readDirFiles.read(out, 'utf8', true, function (outErr, outFiles) {
             assert.ifError(outErr);
             assert.deepEqual(srcFiles, outFiles);
             cb();
@@ -98,8 +98,8 @@ describe('ncp', function () {
         }, function(err) {
           if(err) return cb(err);
 
-          readDirFiles(src, 'utf8', function (srcErr, srcFiles) {
-            readDirFiles(out, 'utf8', function (outErr, outFiles) {
+          readDirFiles.read(src, 'utf8', true, function (srcErr, srcFiles) {
+            readDirFiles.read(out, 'utf8', true, function (outErr, outFiles) {
               assert.ifError(srcErr);
               assert.deepEqual(srcFiles.a, outFiles.z);
               cb();
